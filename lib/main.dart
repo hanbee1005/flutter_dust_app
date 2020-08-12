@@ -56,9 +56,20 @@ class _MainState extends State<Main> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                '현재 위치의 미세먼지',
-                style: TextStyle(fontSize: 20),
+              Column(
+                children: <Widget>[
+                  Text(
+                    '${_result.data.state} Air Quality',
+                    style: TextStyle(fontSize: 40),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    '${_result.data.location.coordinates[0]} | ${_result.data.location.coordinates[1]}',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 16,
@@ -132,7 +143,13 @@ class _MainState extends State<Main> {
                   padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
                   color: Colors.orange,
                   child: Icon(Icons.refresh),
-                  onPressed: () {},
+                  onPressed: () {
+                    fetchData().then((airResult) {
+                      setState(() {
+                        _result = airResult;
+                      });
+                    });
+                  },
                 ),
               ),
             ],
